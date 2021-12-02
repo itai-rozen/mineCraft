@@ -1,0 +1,137 @@
+@font-face {
+    font-family: minecraft;
+    src: url('./../assets/fonts/Minecraft.ttf');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: minecraft;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+button {
+    cursor: pointer;
+}
+
+.side-board {
+    height: 100vh;
+    width: 25vw;
+    border: 1px solid green;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.side-board * {
+    margin-top: 10%;
+}
+
+.game-container {
+    height: 100vh;
+    width: 75vw;
+    display: flex;    
+    justify-content: center;
+}
+
+.game-container .start-screen {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url('./../assets/images/ground.png');
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.start-screen .start-logo {
+    background: url('./../assets/images/logo.png') no-repeat center center/cover;
+    width: 40%;
+    height: 20%;
+}
+
+.start-screen .start-btn {
+    width: 20%;
+    height: 10%;
+    font-size: 2rem;
+    background-color: black;
+    border: 5px solid red;
+    border-radius: 5px;
+    color: white;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.5);
+}
+
+.game-board {
+    height: 100%;
+    width: 70%;
+    display: grid;
+    grid-template-columns: repeat(25, 1fr);
+    grid-template-rows: repeat(25, 1fr);
+    position: relative;
+    border: 1px solid red;
+}
+
+.btn {
+    height: 15%;
+    width: 30%;
+    background-color: #aaa;
+    border-radius: 10px;
+}
+
+.shovel-btn {
+    background: url('./../assets/images/shovel.png') no-repeat center center/contain;
+    background-size: 80%;  
+}
+.axe-btn {
+    background: url('./../assets/images/axe.png') no-repeat center center/contain;
+    background-size: 80%;
+}
+.pickaxe-btn {
+    background: url('./../assets/images/pickaxe.png') no-repeat center center/contain;
+    background-size: 80%;
+
+}
+.inventory-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.inventory-container > div {
+    height: 4rem;
+    width: 4rem;
+    border: 1px solid black;
+    margin: 1rem;
+}
+
+.inventory-container .item-amount {
+ background-color: black;
+ color: white;
+ margin: 0;
+ padding: 0 3px;
+ display: inline;
+
+}
+
+.game-board div:hover {
+    border: 1px solid rgb(182, 180, 180);
+}
+
+.hide {
+    visibility: hidden;
+}
+
+.active {
+    border: 3px solid red;
+}

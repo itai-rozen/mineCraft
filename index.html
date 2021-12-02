@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MineCraft</title>
+    <link rel="stylesheet" href="css/blocks.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/utils.js" defer></script>
+    <script src="js/game.js" defer></script>
+</head>
+<body>
+        <main class="game-container flex center">
+            <div class="game-board">
+              <div class="start-screen hide">
+                <div class="start-logo"></div>
+                <button class="start-btn">Start</button>
+              </div>
+          </div>
+        </main>
+
+
+        <aside class="side-board">
+                <button data-boolean="isShovelOn" class="shovel-btn tool-btn btn"></button>
+                <button data-boolean="isAxeOn" class="axe-btn tool-btn btn"></button>
+                <button data-boolean="isPickAxeOn" class="pickaxe-btn tool-btn btn"></button>
+          <div class="inventory-container">
+              <div data-item="grass" class="inventory-item inv-grass"><div class="item-amount">0</div></div>
+              <div data-item="wood" class="inventory-item inv-wood"><div class="item-amount">0</div></div>
+              <div data-item="stone" class="inventory-item inv-stone"><div class="item-amount">0</div></div>
+              <div data-item="ground" class="inventory-item inv-ground"><div class="item-amount">0</div></div>
+          </div>
+        </aside>
+      
+    
+</body>
+</html>

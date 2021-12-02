@@ -1,0 +1,14 @@
+
+.sky { background-color: rgb(0, 204, 255); }
+
+.ground { background: url('./../assets/images/ground.png') no-repeat; }
+
+.grass { background: url('./../assets/images/grass.png') no-repeat; } 
+
+.leaves {  background: url('./../assets/images/Leaves.png'); }
+
+.stone { background: url('./../assets/images/stone.png'); }
+
+.wood { background: url('./../assets/images/wood.jpg'); }
+
+.cloud { background-color: white; }
