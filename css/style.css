@@ -103,6 +103,26 @@ button {
     background-size: 80%;
 
 }
+
+.restart-btn {
+position: absolute;
+top: 0;
+left: 0;
+/* align-self: flex-end; */
+width: 4rem;
+height: 4rem;
+background-color: transparent;
+border-radius: 50%;
+border-bottom-left-radius: 0;
+border-top-left-radius: 0;
+border-left: none;
+}
+
+.restart-btn:hover i {
+    transform: rotate(360deg);
+    transition: .3s;
+}
+
 .inventory-container {
     display: flex;
     flex-wrap: wrap;
