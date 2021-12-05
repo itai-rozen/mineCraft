@@ -8,8 +8,6 @@ const game = {
         pickAxeButton: dqs('.pickaxe-btn'),
         startButton: dqs('.start-btn'),
         restartButton: dqs('.restart-btn'),
-        createButton: dqs('.create-btn'),
-        newPlayButton: dqs('.play-created-btn'),
         startScreen: dqs('.start-screen'),
         inventoryContainer: {
             grass: dqs('.inv-grass'),
@@ -52,7 +50,10 @@ function init() {
     createBoard()
     renderBoard(game.board)
 }
-init()
+game.domElements.startButton.addEventListener('click', (e) =>{
+    addClass(e.target,'hide')
+    init()
+})
 function updateToolActiveClass(el) {
     const toolButtons = dqsa('.tool-btn')
     toolButtons.forEach(button => {
