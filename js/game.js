@@ -37,7 +37,7 @@ game.domElements.startButton.addEventListener('click', () => init)
 
 function init() {
     const { domElements, inventory } = game
-    const { gameBoard, inventoryContainer, startScreen, createButton, restartButton } = domElements
+    const { gameBoard, inventoryContainer, startScreen, restartButton } = domElements
     addClass(startScreen, 'hide')
     const toolButtons = dqsa('.tool-btn')
     toolButtons.forEach(button => button.addEventListener('click', handleTool))
@@ -102,7 +102,6 @@ function resetBooleans() {
 function createBoard(size = 25) {
     let board = []
     const tilesToEnhance = []
-
         for (let i = size - 1; i >= 0; i--) {
             board[i] = []
             for (let j = size - 1; j >= 0; j--) {
@@ -114,28 +113,30 @@ function createBoard(size = 25) {
                 board[i][j] = currCell
             }
     }
-
     board = enhanceTiles(tilesToEnhance, board, size)
     game.board = board
 
 }
 
-function getTile(nextTileNum, size, i, start = 0) {
+function getTile(nextTileNum) {
     let currTileNum
-    if (nextTileNum === 6) return getRandomIdx([5, 6])
-    else if (nextTileNum === 5) return getRandomIdx([0, 3, 4, 5, 6])
-    else if (nextTileNum === 3) {
-        currTileNum = (Math.random() > 0.7) ? 2 : 3
-        return currTileNum
+    switch(nextTileNum){
+        case 6:
+            return getRandomIdx([5,6]);
+        case 5: 
+            return getRandomIdx([0, 3, 4, 5, 6]);
+        case 3: 
+            return (Math.random() > 0.7) ? 2 : 3;
+        default:
+            return 0;
+            
     }
-    else return 0
-
 }
 
 
 
 
-function enhanceTiles(tiles, board, boardLength) {
+function enhanceTiles(tiles, board) {
     tiles.reverse().forEach(tileObj => {
         const { i, j, tile } = tileObj
         if (i - 1 > 0) {
@@ -190,7 +191,6 @@ function addTileAttributes(e) {
     if (!booleans.isAxeOn && !booleans.isPickAxeOn && !booleans.isShovelOn && booleans.isHoldingElement && currBlockNum === 0) {
         placeItem(tileEl)
     }
-
 }
 
 function harvestItem(tileNum, el, currClass, inventoryEl) {
