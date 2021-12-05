@@ -63,7 +63,7 @@ function updateToolActiveClass(el) {
 }
 
 function handleTool({ target }) {
-    let { booleans } = game
+    const { booleans } = game
     const dataAttribute = target.getAttribute('data-boolean')
     for (let toolBoolean in booleans) {
         booleans[toolBoolean] = (toolBoolean === dataAttribute) ? !booleans[toolBoolean] : false
@@ -119,7 +119,7 @@ function createBoard(size = 25) {
 }
 
 function getTile(nextTileNum) {
-    let currTileNum
+    
     switch(nextTileNum){
         case 6:
             return getRandomIdx([5,6]);
@@ -179,7 +179,7 @@ function addTileAttributes(e) {
     const i = e.target.getAttribute('data-x')
     const j = e.target.getAttribute('data-y')
     const currBlockNum = board[i][j]
-    let currBlockClass = mineCraftClasses[currBlockNum]
+    const currBlockClass = mineCraftClasses[currBlockNum]
     const currInventoryDomEl = domElements.inventoryContainer[currBlockClass]
     if ((isAxeOn && (currBlockClass === 'wood' || currBlockClass === 'leaves')) ||
         (isPickAxeOn && (currBlockClass === 'stone')) ||

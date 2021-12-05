@@ -61,13 +61,13 @@ button {
 }
 
 .start-screen .start-logo {
-    background: url('./../assets/images/logo.png') no-repeat center center/cover;
+    background: url('./../assets/images/logo.png') no-repeat center center/contain;
     width: 50%;
     height: 20%;
 }
 
 .start-screen .start-btn {
-    width: 20%;
+    min-width: 20%;
     height: 10%;
     font-size: 2rem;
     background-color: black;
