@@ -8,8 +8,10 @@
     <link rel="stylesheet" href="css/blocks.css">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
-    <script src="js/utils.js" defer></script>
-    <script src="js/game.js" defer></script>
+    <link rel="stylesheet"  href="style.css">
+    <script  src="js/utils.js" defer></script>
+    <script  src="js/xtra.js" defer></script>
+    <script  src="js/game.js" defer></script>
 </head>
 <body>
         <main class="game-container flex center">
@@ -23,18 +25,18 @@
         </main>
 
 
-        <aside class="side-board">
+        <aside class="side-board flex">
                 <button data-boolean="isShovelOn" class="shovel-btn tool-btn btn"></button>
                 <button data-boolean="isAxeOn" class="axe-btn tool-btn btn"></button>
                 <button data-boolean="isPickAxeOn" class="pickaxe-btn tool-btn btn"></button>
-          <div class="inventory-container">
+          <div class="inventory-container flex ">
               <div data-item="grass" class="inventory-item inv-grass"><div class="item-amount">0</div></div>
               <div data-item="wood" class="inventory-item inv-wood"><div class="item-amount">0</div></div>
               <div data-item="leaves" class="inventory-item inv-leaves"><div class="item-amount">0</div></div>
               <div data-item="stone" class="inventory-item inv-stone"><div class="item-amount">0</div></div>
               <div data-item="ground" class="inventory-item inv-ground"><div class="item-amount">0</div></div>
           </div>
-          <button class="restart-btn"><i class="fas fa-redo fa-2x"></i></button>
+          <button class="restart-btn absolute"><i class="fas fa-redo fa-2x"></i></button>
         </aside>
       
     

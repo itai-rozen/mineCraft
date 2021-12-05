@@ -9,6 +9,8 @@ const game = {
         pickAxeButton: dqs('.pickaxe-btn'),
         startButton: dqs('.start-btn'),
         restartButton: dqs('.restart-btn'),
+        createButton: dqs('.create-btn'),
+        newPlayButton: dqs('.play-created-btn'),
         startScreen: dqs('.start-screen'),
         inventoryContainer: {
             grass: dqs('.inv-grass'),
@@ -22,7 +24,7 @@ const game = {
         isShovelOn: false,
         isAxeOn: false,
         isPickAxeOn: false,
-        isHoldingElement: false
+        isHoldingElement: false,
     },
     currItem: null,
     inventory: {
@@ -36,34 +38,31 @@ const game = {
 
 game.domElements.startButton.addEventListener('click', () => init)
 
-function init(){
-    console.log('hi init')
-    const { domElements, inventory,booleans} = game
-    const { gameBoard, inventoryContainer, startScreen, shovelButton, axeButton, pickAxeButton, restartButton } = domElements
+function init() {
+    const { domElements, inventory } = game
+    const { gameBoard, inventoryContainer, startScreen, createButton, restartButton } = domElements
     addClass(startScreen, 'hide')
-    shovelButton.addEventListener('click', useTool)
-    axeButton.addEventListener('click', useTool)
-    pickAxeButton.addEventListener('click', useTool)
-    restartButton.addEventListener('click', () =>  init())
+    const toolButtons = dqsa('.tool-btn')
+    toolButtons.forEach(button => button.addEventListener('click', handleTool))
+    const inventoryItems = dqsa('.inventory-item')
+    inventoryItems.forEach(itemEl => itemEl.addEventListener('click', handleItem))
+    restartButton.addEventListener('click', () => init())
     gameBoard.innerHTML = ''
-    resetBooleans(booleans)
-    resetInventory(inventory,inventoryContainer)
+    resetBooleans()
+    resetInventory(inventory, inventoryContainer)
     createBoard()
-    renderBoard()
-    console.dir(game)
+    renderBoard(game.board)
 }
 init()
 function updateToolActiveClass(el) {
-    console.log(el.classList[0])
     const toolButtons = dqsa('.tool-btn')
     toolButtons.forEach(button => {
-        console.log(button.classList[0])
         if (button.classList[0] === el.classList[0]) button.classList.toggle('active')
-        else removeClass(button,'active')
+        else removeClass(button, 'active')
     })
 }
 
-function useTool({ target }) {
+function handleTool({ target }) {
     let { booleans } = game
     const dataAttribute = target.getAttribute('data-boolean')
     for (let toolBoolean in booleans) {
@@ -72,108 +71,147 @@ function useTool({ target }) {
     updateToolActiveClass(target)
 }
 
-const inventoryItemsEl = dqsa('.inventory-item')
-inventoryItemsEl.forEach(itemEl => {
-    let dataAttr = itemEl.getAttribute('data-item')
-    itemEl.addEventListener('click', () => {
-        if (+itemEl.textContent === 0 || game.booleans.isHoldingElement) return
-        resetBooleans(game.booleans)
-        game.currItem = dataAttr
-        game.booleans.isHoldingElement = true
-        game.inventory[game.currItem]--
-        itemEl.querySelector('.item-amount').textContent--
-        console.log('inventory after removing: ',itemEl.textContent)
-        if (+itemEl.textContent === 0) removeClass(itemEl,dataAttr)
-    })
-})
+function handleItem({ target }) {
+    const {  booleans, inventory } = game
+    const itemEl = target
+    const dataAttr = target.getAttribute('data-item')
+    if (+itemEl.textContent === 0 || booleans.isHoldingElement) return
+    resetBooleans()
+    game.currItem = dataAttr
+    booleans.isHoldingElement = true
+    inventory[game.currItem]--
+    itemEl.querySelector('.item-amount').textContent--
+    if (+itemEl.textContent === 0) removeClass(itemEl, dataAttr)
+}
 
-function resetInventory(inventoryObj, inventoryDomObj){
-    for (let item in inventoryObj) inventoryObj[item] = 0
-    for (let domEl in inventoryDomObj){
-        removeClass(inventoryDomObj[domEl],domEl)
-        inventoryDomObj[domEl].querySelector('.item-amount').textContent = 0
+
+function resetInventory(inventoryObj, inventoryDomObj) {
+    for (let item in inventoryObj) inventoryObj[item] =  0
+    for (let domEl in inventoryDomObj) {
+        addClass(inventoryDomObj[domEl], domEl)
+        inventoryDomObj[domEl].querySelector('.item-amount').textContent =  0
     }
 }
-function resetBooleans(booleansObj){
-    for (boolean in booleansObj) booleansObj[boolean] = false
+function resetBooleans() {
+    const { booleans } = game
+    for (boolean in booleans) booleans[boolean] = false
     const toolButtonEls = dqsa('.tool-btn')
-    toolButtonEls.forEach(tool => removeClass(tool,'active'))
+    toolButtonEls.forEach(tool => removeClass(tool, 'active'))
 }
 
+function createBoard(size = 25) {
+    let board = []
+    const tilesToEnhance = []
 
-
-
-function createBoard() {
-    console.log('hi create board')
-    // const ROWS = 25
-    // const COLS = 25
-    // const board = [Array(ROWS).fill(Array(COLS).fill(0))]
-    game.board = [
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 4, 0, 0],
-        [0, 0, 0, 0, 0, 4, 0, 0, 0, 4, 4, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 4, 4, 0, 0],
-        [0, 0, 0, 0, 4, 4, 4, 0, 0, 4, 4, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 4, 4, 4, 0],
-        [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
-        [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6],
-        [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6],
-        [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6],
-        [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6],
-        [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6]
-    ];
-}
-
-function renderBoard() {
-
-    game.board.forEach((gameRow, i) => gameRow.forEach((gameTile, j) => {
-        const { booleans, inventory, domElements, mineCraftClasses } = game
-        const currBlockClass = mineCraftClasses[gameTile]
-        const currInventoryDomEl = domElements.inventoryContainer[currBlockClass]
-        const tileEl = document.createElement('div')
-        tileEl.setAttribute('data-x', i)
-        tileEl.setAttribute('data-y', j)
-        addClass(tileEl, 'sky')
-        addClass(tileEl, currBlockClass)
-        tileEl.addEventListener('click', () => {
-            console.log('hi giant event listener')
-            const { isAxeOn, isPickAxeOn, isShovelOn } = booleans
-            const { currItem } = game
-            if ((isAxeOn && (currBlockClass === 'wood' || currBlockClass === 'leaves')) ||
-                (isPickAxeOn && (currBlockClass === 'stone')) ||
-                (isShovelOn && (currBlockClass === 'ground' || currBlockClass === 'grass'))) {
-                console.log('item is harvested!')
-                gameTile = 0
-                removeClass(tileEl, currBlockClass)
-                // if (currBlockClass === 'leaves') inventory.wood++
-                inventory[currBlockClass]++
-                
-                addClass(currInventoryDomEl,  currBlockClass)
-                currInventoryDomEl.querySelector('.item-amount').textContent = inventory[currBlockClass]
+        for (let i = size - 1; i >= 0; i--) {
+            board[i] = []
+            for (let j = size - 1; j >= 0; j--) {
+                let currCell
+                    if (i > (size / 1.5)) currCell = 6
+                    else if (i < (size / 4)) currCell = Math.random() > 0.95 ? 1 : 0
+                    else currCell = getTile(board[i + 1][j], size, i)
+                    if (currCell === 2 || currCell === 1) tilesToEnhance.push({ tile: currCell, i: i, j: j })
+                board[i][j] = currCell
             }
-            // holding block item
-            if (!booleans.isAxeOn && !booleans.isPickAxeOn && !booleans.isShovelOn && booleans.isHoldingElement && gameTile === 0) {
-                const classIdx = mineCraftClasses.findIndex(mineCraftClass => mineCraftClass === currItem)
-                console.log('class index @ tile event listener: ',classIdx)
-                addClass(tileEl,mineCraftClasses[classIdx])
-                booleans.isHoldingElement = false
-            }        
-        })
-        game.domElements.gameBoard.append(tileEl)
+        // }
+    }
+
+    board = enhanceTiles(tilesToEnhance, board, size)
+    game.board = board
+
+}
+
+function getTile(nextTileNum, size, i, start = 0) {
+    let currTileNum
+    if (nextTileNum === 6) return getRandomIdx([5, 6])
+    else if (nextTileNum === 5) return getRandomIdx([0, 3, 4, 5, 6])
+    else if (nextTileNum === 3) {
+        currTileNum = (Math.random() > 0.7) ? 2 : 3
+        return currTileNum
+    }
+    else return 0
+
+}
+
+
+
+
+function enhanceTiles(tiles, board, boardLength) {
+    tiles.reverse().forEach(tileObj => {
+        const { i, j, tile } = tileObj
+        if (i - 1 > 0) {
+            board[i - 1][j] = tile
+            board[i - 1][j - 1] = tile
+            board[i][j - 1] = tile
+            board[i - 1][j + 1] = tile
+            board[i][j + 1] = tile
+        }
+    })
+    return board
+}
+
+function renderBoard(board) {
+    const { mineCraftClasses, domElements } = game
+    domElements.gameBoard.innerHTML= ''
+    board.forEach((gameRow, i) => gameRow.forEach((gameTile, j) => {
+        const currBlockClass = mineCraftClasses[gameTile]
+        const tileEl = createTileElement(i, j, currBlockClass, gameTile)
+        tileEl.addEventListener('click', addTileAttributes)
+        domElements.gameBoard.append(tileEl)
     }))
+}
+
+
+function createTileElement(i, j, elClass = "", tileNum) {
+    const el = document.createElement('div')
+    el.setAttribute('data-x', i)
+    el.setAttribute('data-y', j)
+    el.setAttribute('data-tile', tileNum)
+    addClass(el, 'sky')
+    addClass(el, elClass)
+    return el
+}
+
+function addTileAttributes(e) {
+    const { booleans, domElements, board, inventory, mineCraftClasses } = game
+    const { isAxeOn, isPickAxeOn, isShovelOn } = booleans
+    const tileEl = e.target
+    const i = e.target.getAttribute('data-x')
+    const j = e.target.getAttribute('data-y')
+    const currBlockNum = board[i][j]
+    let currBlockClass = mineCraftClasses[currBlockNum]
+    const currInventoryDomEl = domElements.inventoryContainer[currBlockClass]
+    if ((isAxeOn && (currBlockClass === 'wood' || currBlockClass === 'leaves')) ||
+        (isPickAxeOn && (currBlockClass === 'stone')) ||
+        (isShovelOn && (currBlockClass === 'ground' || currBlockClass === 'grass'))) {
+        // item is being harvested
+        harvestItem(currBlockNum, tileEl, currBlockClass, currInventoryDomEl)
+    }
+    // holding block item
+    if (!booleans.isAxeOn && !booleans.isPickAxeOn && !booleans.isShovelOn && booleans.isHoldingElement && currBlockNum === 0) {
+        placeItem(tileEl)
+    }
+
+}
+
+function harvestItem(tileNum, el, currClass, inventoryEl) {
+    tileNum = 0
+    removeClass(el, currClass)
+    updateInventory(currClass, inventoryEl)
+}
+
+function updateInventory(currClass, el) {
+    const { inventory} = game
+    addClass(el, currClass)
+    inventory[currClass]++
+    el.querySelector('.item-amount').textContent =  inventory[currClass]
+}
+
+function placeItem(el) {
+    const { mineCraftClasses, currItem, booleans } = game
+    const classIdx = mineCraftClasses.findIndex(mineCraftClass => mineCraftClass === currItem)
+    addClass(el, mineCraftClasses[classIdx])
+    booleans.isHoldingElement = false
 }
 
 

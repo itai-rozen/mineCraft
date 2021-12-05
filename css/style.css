@@ -2,7 +2,9 @@
     font-family: minecraft;
     src: url('./../assets/fonts/Minecraft.ttf');
 }
-
+:root {
+    --game-color :rgb(231, 132, 19);
+}
 * {
     margin: 0;
     padding: 0;
@@ -17,6 +19,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: row;
+    background: url('./../assets/images/wall.jpg') no-repeat center center/cover;
 }
 
 button {
@@ -31,6 +34,7 @@ button {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    background-color: var(--game-color);
 }
 .side-board * {
     margin-top: 10%;
@@ -67,7 +71,7 @@ button {
     height: 10%;
     font-size: 2rem;
     background-color: black;
-    border: 5px solid red;
+    border: 5px solid var(--game-color);
     border-radius: 5px;
     color: white;
     box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.5);
@@ -80,15 +84,14 @@ button {
     grid-template-columns: repeat(25, 1fr);
     grid-template-rows: repeat(25, 1fr);
     position: relative;
-    border: 1px solid red;
 }
 
 .btn {
     height: 15%;
     width: 30%;
-    background-color: #aaa;
     border-radius: 10px;
 }
+
 
 .shovel-btn {
     background: url('./../assets/images/shovel.png') no-repeat center center/contain;
@@ -104,11 +107,24 @@ button {
 
 }
 
-.restart-btn {
+.tool-btn {
+    background-color: #ddd;
+    border: 5px solid black;
+    opacity: 0.5;
+    transition: .3s;
+}
+.tool-btn:hover {
+    opacity: 1;
+    transition: .3s;
+}
+
+
+
+
+.absolute {
 position: absolute;
 top: 0;
 left: 0;
-/* align-self: flex-end; */
 width: 4rem;
 height: 4rem;
 background-color: transparent;
@@ -117,6 +133,14 @@ border-bottom-left-radius: 0;
 border-top-left-radius: 0;
 border-left: none;
 }
+
+.create-btn {
+    top: 20%;
+}
+.play-created-btn{
+    top: 40%
+}
+
 
 .restart-btn:hover i {
     transform: rotate(360deg);
@@ -153,5 +177,62 @@ border-left: none;
 }
 
 .active {
-    border: 3px solid red;
+   opacity: 1;
+}
+
+.flex {
+    display: flex;
+}
+
+.col {
+    flex-direction: column;
+}
+
+.center {
+    justify-content: center;
+    align-items: center;
+}
+@media only screen and (max-width: 500px){
+    body {
+        flex-direction: column;
+    }
+
+    .side-board {
+        /* flex-direction: row; */
+        width: 100vw;
+        height: 25vh;
+
+    }
+
+    .inventory-container > div {
+        height: 2rem;
+        width: 2rem;
+        border: 1px solid black;
+        margin: 5px;
+    }
+    .game-board {
+        width: 100%;
+    }
+    .side-board {
+        flex-direction: row;
+    }
+    .tool-btn {
+        height: 2rem;
+        width: 2rem;
+    }
+
+    .absolute {
+        position: unset;
+        top: 0;
+        left: 0;
+        width: 3rem;
+        height: 3rem;
+        background-color: transparent;
+        border-radius: 50%;
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
+        border-left: none;
+        background-color: #ddd;
+        }
+        
 }
