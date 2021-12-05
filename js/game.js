@@ -3,7 +3,6 @@ const game = {
     mineCraftClasses: ['sky', 'cloud', 'leaves', 'wood', 'stone', 'grass', 'ground'],
     domElements: {
         gameBoard: dqs('.game-board'),
-        // gameBoardCopy: null,
         shovelButton: dqs('.shovel-btn'),
         axeButton: dqs('.axe-btn'),
         pickAxeButton: dqs('.pickaxe-btn'),
@@ -113,7 +112,6 @@ function createBoard(size = 25) {
                     if (currCell === 2 || currCell === 1) tilesToEnhance.push({ tile: currCell, i: i, j: j })
                 board[i][j] = currCell
             }
-        // }
     }
 
     board = enhanceTiles(tilesToEnhance, board, size)
