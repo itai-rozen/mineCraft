@@ -132,6 +132,7 @@ border-radius: 50%;
 border-bottom-left-radius: 0;
 border-top-left-radius: 0;
 border-left: none;
+background-color: #ddd;
 }
 
 .create-btn {
